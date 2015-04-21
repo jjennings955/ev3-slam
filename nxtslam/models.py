@@ -17,16 +17,18 @@ class MotionModel(object):
 
 
   def compute_motion(self, pose, d_odo):
-    d_theta = (d_odo.right * self.wheel_circ -
-               d_odo.left * self.wheel_circ) / self.base_circ
+    print("D_ODO:" + str(d_odo))
+    #u_w = 0.5*(d_odo.right + d_odo.left)
+    #u_phi = d_odo.right - d_odo.left
+    #dx = self.wheel_circ*u_w*math.cos(pose.theta)
+    #dy = self.wheel_circ*u_w*math.sin(pose.theta)
 
-    d_x = ((d_odo.left * self.wheel_circ +
-               d_odo.right * self.wheel_circ) / 2 
-           * math.cos(pose.theta+d_theta/1))
+    d_theta = (d_odo.right - d_odo.left)*(self.wheel_circ / self.base_circ)
+    d_x = 0.5*self.wheel_circ*math.cos(pose.theta)*(d_odo.left + d_odo.right)
+    d_y = 0.5*self.wheel_circ*math.sin(pose.theta)*(d_odo.left + d_odo.right)
+    #d_x = 0.5*math.cos(pose.theta+d_theta/1)* (d_odo.left * self.wheel_circ + d_odo.right * self.wheel_circ)
     
-    d_y = ((d_odo.left * self.wheel_circ +
-               d_odo.right * self.wheel_circ) / 2 
-           * math.sin(pose.theta+d_theta/1))
+    #d_y = 0.5*math.sin(pose.theta+d_theta/1)*(d_odo.left * self.wheel_circ + d_odo.right * self.wheel_circ)
     
     return Pose(pose.x + d_x, pose.y + d_y, (pose.theta + d_theta) % (math.pi * 2))
 

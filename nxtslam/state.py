@@ -13,7 +13,7 @@ class Pose(object):
     self.x, self.y, self.theta = x,y,theta
 
   def __repr__(self):
-    return str('%.3f, %.3f, %.3f' % (self.x, self.y, self.theta*180/3.14159))
+    return str('X: %.3f, Y: %.3f, Theta: %.3f' % (self.x, self.y, self.theta*180/3.14159))
 
   def to_nparray(self):
     return np.array([self.x,self.y,self.theta])
